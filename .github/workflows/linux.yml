@@ -1,0 +1,22 @@
+name: linux CI
+
+on:
+  push:
+    paths: 
+      - linux
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: download gcc
+      run: sudo apt-get install gcc-8
+    - name: download linux
+      run: wget https://github.com/pull-ups/linux/archive/$(git rev-parse @:./linux).zip -O linux.zip
+    - name: linux unzip
+      run: unzip linux.zip
+    - name: run linux
+      run: ./build-linux.sh linux-$(git rev-parse @:./linux) tinyconfig
